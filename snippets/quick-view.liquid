@@ -1,0 +1,239 @@
+{% comment %} {% assign product = product or all_products[request.path | split: '/' | last] %} {% endcomment %}
+
+<div class="quickview-wrapper">
+  <div class="quick-view-image-info">
+    <div class="quickview-image">
+      <img
+        src="{{ product.featured_image | img_url: '400x' }}"
+        alt="{{ product.title }}"
+        width="120px"
+        height="140px">
+    </div>
+    <div class="info-wrapper">
+      <h2>{{ product.title }}</h2>
+      <p class="quickview-price">{{ product.price | money }}</p>
+      <div class="quickview-description">{{ product.description }}</div>
+    </div>
+  </div>
+  <div class="quickview-info">
+    <form class="quickview-form">
+      <div class="variant-options--wrapper">
+        {% for option in product.options_with_values %}
+          <div class="quickview-option">
+            <label>{{ option.name }}</label>
+            {% if option.name contains 'Color' %}
+              <div class="quickview-color-options">
+                {% for value in option.values %}
+                  <label class="color-swatch" for="option{{ forloop.parentloop.index }}-{{ forloop.index }}">
+                    <input
+                      id="option{{ forloop.parentloop.index }}-{{ forloop.index }}"
+                      type="radio"
+                      name="option{{ forloop.parentloop.index }}"
+                      value="{{ value | escape }}"
+                      {% if forloop.first %}
+                      checked{% endif %}>
+                    <div class="color-name" data-color="{{ value |  handleize }}">{{ value }}</div>
+                  </label>
+                {% endfor %}
+              </div>
+            {% else %}
+              {% comment %} <select name="option{{ forloop.index }}">
+                                                                                                                                                                {% for value in option.values %}
+                                                                                                                                                                  <option value="{{ value | escape }}">{{ value }}</option>
+                                                                                                                                                                {% endfor %}
+                                                                                                                                            </select> {% endcomment %}
+
+              <div class="custom-select-wrapper">
+                <div class="custom-select">
+                  <select id="sizeSelect" name="option2">
+                    <option
+                      value=""
+                      disabled
+                      selected>Choose your size</option>
+                    {% for value in option.values %}
+                      <option value="{{ value | escape }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <input
+        type="hidden"
+        name="id"
+        value="{{ product.variants.first.id }}">
+      <button type="submit" class="quickview-addtocart">
+        <span>ADD TO CART</span>
+        {% render 'icons' icon: 'right-arrow' fill: '#ffffff' %}
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .variant-options--wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .popup-close {
+    cursor: pointer;
+    appearance: none;
+    background: none;
+    border: none;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .quickview-description {
+    font-size: 14px;
+    margin-top: 12px;
+  }
+  .quick-view-image-info {
+    display: flex;
+    gap: 10px;
+  }
+
+  .quickview-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 311px;
+  }
+  .quickview-image img {
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  .quickview-wrapper h2 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  .quickview-price {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .quickview-option {
+    margin-bottom: 10px;
+  }
+  .quickview-color-options {
+    display: flex;
+    gap: 10px;
+  }
+  .color-swatch {
+    flex: 1;
+  }
+  .color-swatch input {
+    display: none;
+  }
+  .color-swatch .color-name {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 0.5px solid #000000;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .color-swatch .color-name::before {
+    content: '';
+    width: 6px;
+    height: calc(100% + 4px);
+    background-color: attr(data-color type(<color>));
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    border: o.5px solid black;
+  }
+  .color-swatch input:checked + .color-name {
+    background: black;
+    color: white;
+  }
+  .quickview-addtocart {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: #ffffff;
+    width: 100%;
+    background-color: #000000;
+    padding-inline: 24px;
+    padding-block: 14px;
+    box-shadow: 0 2px 4px 0 #00000033;
+  }
+
+  .quickview-addtocart svg {
+    transform: translateX(0%);
+    transition: transform 0.3s ease;
+  }
+
+
+  .quickview-addtocart:hover svg {
+    transform: translateX(40%);
+  }
+
+
+  /* custom dropdown */
+
+  .custom-select-wrapper {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+  }
+
+  .custom-select-wrapper label {
+    margin-bottom: 4px;
+    color: #333;
+  }
+
+  .custom-select {
+    position: relative;
+    border: 1px solid black;
+    overflow: hidden;
+  }
+
+  .custom-select select {
+    appearance: none;
+    /* removes default arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 10px 40px 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  /* Custom arrow */
+  .custom-select::after {
+    content: "▼";
+    /* ▼ style arrow */
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #000;
+    pointer-events: none;
+  }
+
+  .custom-select select:focus {
+    outline: none;
+  }
+
+</style>
+
+<script>
+  window.quickviewData = {
+    variants: {{ product.variants | json }},
+    productId: {{ product.id }}
+  };
+</script>

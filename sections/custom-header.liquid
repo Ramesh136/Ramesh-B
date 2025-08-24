@@ -1,0 +1,109 @@
+<div class="custom-header">
+  <div class="header-hamburger">{% render 'icons' icon: 'hamburger' %}</div>
+  <div class="header-logo">{{ section.settings.logo_text }}</div>
+  <div class="header-subtext">{{ section.settings.header_subtext }}</div>
+  <a href="{{ section.settings.header_cta_link }}" class="header-button">
+    <span>{{ section.settings.header_cta_text }}</span>
+    {% render 'icons' icon: 'right-arrow' fill: '#000000' %}
+  </a>
+</div>
+
+<style>
+  .custom-header {
+    background-color: #F5F5F5;
+    display: flex;
+    align-items: center;
+    padding-inline: 20px;
+    padding-block: 10px;
+    justify-content: center;
+  }
+
+  .header-hamburger {
+    display: inline;
+    position: absolute;
+    left: 16px;
+    cursor: pointer;
+  }
+
+  .header-logo {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .header-button {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #000000;
+    width: 100%;
+    max-width: 220px;
+    background-color: #FFF544;
+    padding-inline: 24px;
+    padding-block: 14px;
+    box-shadow: 0 2px 4px 0 #00000033;
+  }
+
+  .header-button svg {
+    transform: translateX(0%);
+    transition: transform 0.3s ease;
+  }
+
+
+  .header-button:hover svg {
+    transform: translateX(40%);
+  }
+
+  .header-button,
+  .header-subtext {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-header {
+      justify-content: space-between;
+    }
+
+    .header-hamburger {
+      display: none;
+    }
+
+    .header-subtext {
+      display: block;
+    }
+
+    .header-button {
+      display: flex;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Custom header",
+    "settings": [
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "Logo text"
+      }, {
+        "type": "text",
+        "id": "header_subtext",
+        "label": "Header subtext"
+      }, {
+        "type": "text",
+        "id": "header_cta_text",
+        "label": "Button text"
+      }, {
+        "type": "url",
+        "id": "header_cta_link",
+        "label": "Button link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Header"
+      }
+    ]
+  }
+{% endschema %}

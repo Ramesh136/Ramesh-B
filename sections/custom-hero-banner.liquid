@@ -1,0 +1,272 @@
+<div class="custom-banner--wrapper page-width">
+  <div class="image--wrapper">
+    <div class="overlay--wrapper {{ section.settings.overlay_position }}">
+      <div class="overlay--inner">
+        <h2 class="overlay-head">
+          {{ section.settings.overlay_heading }}
+        </h2>
+        <div class="overlay-description">
+          {{ section.settings.overlay_description }}
+        </div>
+        <a class="overlay-button" href="{{ section.settings.overlay_button_link }}">
+          <span>{{ section.settings.overlay_button_text }}</span>
+          {% render 'icons' icon: 'right-arrow' fill: '#ffffff' %}</a>
+      </div>
+    </div>
+    <picture>
+      <source media="(max-width: 750px)" srcset={{ section.settings.mobile_image | image_url }} />
+      <source media="(min-width: 751px)" srcset={{ section.settings.desktop_image | image_url }} />
+      <img
+        src={{ section.settings.desktop_image | image_url }}
+        alt=""
+        width="100%"
+        height="auto">
+    </picture>
+  </div>
+  <p class="section-footer">{{ section.settings.section_footer }}</p>
+</div>
+
+<style>
+  /* removing default styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .custom-banner--wrapper {
+    margin-bottom: 90px;
+  }
+
+  picture {
+    display: block;
+    line-height: 0;
+  }
+
+  .section-footer {
+    background-color: #F5F5F5;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .custom-banner--wrapper {
+    position: relative;
+  }
+
+  .image--wrapper {
+    position: relative;
+  }
+
+  .overlay--wrapper {
+    position: static;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .overlay--inner {
+    width: 100%;
+  }
+
+  .overlay-head {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .overlay-description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0;
+    text-align: center;
+  }
+
+  .overlay-button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #ffffff;
+    width: 100%;
+    max-width: 220px;
+    background-color: #000000;
+    padding-inline: 24px;
+    padding-block: 14px;
+    box-shadow: 0 2px 4px 0 #00000033;
+  }
+
+  .overlay-button svg {
+    transform: translateX(0%);
+    transition: transform 0.3s ease;
+  }
+
+
+  .overlay-button:hover svg {
+    transform: translateX(40%);
+  }
+
+  .overlay-button span {
+    margin-inline-start: 30px;
+    font-size: 16px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-footer {
+      font-size: 16px;
+    }
+    .overlay-head {
+      font-size: 70px;
+      margin-bottom: 50px;
+      text-align: left;
+    }
+
+    .overlay--inner {
+      width: 45%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .overlay--wrapper {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 20px;
+    }
+
+    .overlay-description {
+      font-size: 20px;
+      margin-bottom: 50px;
+      text-align: left;
+    }
+
+    .overlay-button {
+      position: static;
+      transform: translateX(0%);
+
+    }
+
+    .overlay--wrapper.center-center {
+      justify-content: center;
+      align-items: center;
+    }
+
+    .overlay--wrapper.center-center .overlay--inner {
+      align-items: center;
+    }
+
+    .overlay--wrapper.center-center .overlay--inner * {
+      text-align: center;
+    }
+
+    .overlay--wrapper.bottom-left-corner {
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+
+    .overlay--wrapper.bottom-left-corner .overlay--inner {
+      align-items: flex-start;
+    }
+
+    .overlay--wrapper.bottom-left-corner .overlay--inner * {
+      text-align: start;
+    }
+
+    .overlay--wrapper.bottom-right-corner {
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+
+    .overlay--wrapper.bottom-right-corner .overlay--inner {
+      align-items: flex-end;
+    }
+
+    .overlay--wrapper.bottom-right-corner .overlay--inner * {
+      text-align: end;
+    }
+
+
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Custom Hero Overlay",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Image Banner settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "desktop_image",
+        "label": "Desktop image",
+        "info": "Add desktop image for this Banner"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile image",
+        "info": "Add mobile image for this Banner"
+      },
+      {
+        "type": "header",
+        "content": "Overlay settings"
+      }, {
+        "type": "text",
+        "id": "overlay_heading",
+        "label": "Overlay heading"
+      }, {
+        "type": "richtext",
+        "id": "overlay_description",
+        "label": "Overlay description"
+      }, {
+        "type": "text",
+        "id": "overlay_button_text",
+        "label": "overlay_button_text"
+      }, {
+        "type": "url",
+        "id": "overlay_button_link",
+        "label": "Overlay button link"
+      }, {
+        "type": "text",
+        "id": "section_footer",
+        "label": "Section footer"
+      }, {
+        "type": "select",
+        "id": "overlay_position",
+        "label": "Overlay position",
+        "options": [
+          {
+            "value": "bottom-left-corner",
+            "label": "Bottom left corner"
+          }, {
+            "value": "center-center",
+            "label": "Middle"
+          }, {
+            "value": "bottom-right-corner",
+            "label": "Bottom right corner"
+          }
+        ],
+        "default": "bottom-left-corner"
+      }
+
+    ],
+    "presets": [
+      {
+        "name": "Custom Hero Overlay"
+      }
+    ]
+  }
+{% endschema %}

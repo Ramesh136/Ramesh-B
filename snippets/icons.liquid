@@ -1,0 +1,98 @@
+{% case icon %}
+  {% when 'right-arrow' %}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="27"
+      height="12"
+      viewBox="0 0 27 12"
+      fill="none">
+      <path d="M1 5.25C0.585786 5.25 0.25 5.58579 0.25 6C0.25 6.41421 0.585786 6.75 1 6.75L1 5.25ZM26.5303 6.53033C26.8232 6.23743 26.8232 5.76256 26.5303 5.46967L21.7574 0.696697C21.4645 0.403804 20.9896 0.403804 20.6967 0.696697C20.4038 0.989591 20.4038 1.46446 20.6967 1.75736L24.9393 6L20.6967 10.2426C20.4038 10.5355 20.4038 11.0104 20.6967 11.3033C20.9896 11.5962 21.4645 11.5962 21.7574 11.3033L26.5303 6.53033ZM1 6.75L26 6.75L26 5.25L1 5.25L1 6.75Z" fill={{fill}} />
+    </svg>
+
+  {% when 'plus' %}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="11"
+      height="11"
+      viewBox="0 0 11 11"
+      fill="none">
+      <path
+        d="M5.3457 1.04175V9.50329"
+        stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="square"
+        stroke-linejoin="round" />
+      <path
+        d="M1.11523 5.27252H9.57677"
+        stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="square"
+        stroke-linejoin="round" />
+    </svg>
+
+  {% when 'cross' %}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 13 13"
+      fill="none">
+      <path
+        d="M3.35364 3.28107L9.33685 9.26428"
+        stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="square"
+        stroke-linejoin="round" />
+      <path
+        d="M3.35352 9.26416L9.33673 3.28095"
+        stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="square"
+        stroke-linejoin="round" />
+    </svg>
+
+  {% when 'hamburger' %}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="13"
+      viewBox="0 0 20 13"
+      fill="none">
+      <path
+        d="M1 6.5H19"
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round" />
+      <path
+        d="M1 1.5H19"
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round" />
+      <path
+        d="M1 11.5H19"
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round" />
+    </svg>
+
+  {% when 'down-arrow' %}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="10"
+      viewBox="0 0 16 10"
+      fill="none">
+      <path
+        d="M2 2L8 8L14 2"
+        stroke="black"
+        stroke-width="1.5"
+        stroke-linecap="square" />
+    </svg>
+
+{% else %}
+
+
+  {% endcase %}

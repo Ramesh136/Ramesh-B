@@ -1330,3 +1330,138 @@ class CartPerformance {
     );
   }
 }
+
+function runScripts(container) {
+  const scripts = container.querySelectorAll("script");
+  scripts.forEach(oldScript => {
+    const newScript = document.createElement("script");
+    // Copy inline script
+    if (oldScript.textContent) {
+      newScript.textContent = oldScript.textContent;
+    }
+    // Copy external script (src)
+    if (oldScript.src) {
+      newScript.src = oldScript.src;
+    }
+    // Copy attributes (like type, async, defer)
+    [...oldScript.attributes].forEach(attr =>
+      newScript.setAttribute(attr.name, attr.value)
+    );
+    oldScript.replaceWith(newScript); // executes immediately
+  });
+}
+
+class ProductQuickview extends HTMLElement {
+  constructor() {
+    super();
+    this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+    this.popup = this.querySelector('.product-popup');
+    this.content = this.querySelector('.popup-body');
+    this.closeBtn = this.querySelector('.popup-close');
+
+    // Close handlers
+    this.closeBtn.addEventListener('click', () => this.close());
+    this.popup.addEventListener('click', e => {
+      if (e.target === this.popup) this.close();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === "Escape") this.close();
+    });
+  }
+
+  open(productHandle) {
+    fetch(`/products/${productHandle}?view=quickview`)
+      .then(res => res.text())
+      .then(html => {
+        this.content.innerHTML = html;
+        runScripts(document.querySelector("#productQuickview"));
+        this.popup.classList.add('active');
+        this.attachFormHandlers();
+      });
+  }
+
+  close() {
+    this.popup.classList.remove('active');
+    this.content.innerHTML = '';
+  }
+
+  attachFormHandlers() {
+    const form = this.querySelector('.quickview-form');
+    if (!form) return;
+
+    // Handle variant selection
+    form.querySelectorAll('input, select').forEach(input => {
+      input.addEventListener('change', () => {
+        const selectedOptions = [];
+        form.querySelectorAll('input[type=radio]:checked, select').forEach(el => {
+          selectedOptions.push(el.value);
+        });
+        const variant = window.quickviewData.variants.find(v =>
+          JSON.stringify(v.options) === JSON.stringify(selectedOptions)
+        );
+        if (variant) {
+          form.querySelector('[name="id"]').value = variant.id;
+          const priceEl = form.closest('.quickview-info').querySelector('.quickview-price');
+          if (priceEl) priceEl.textContent = Shopify.formatMoney(variant.price);
+        }
+      });
+    });
+
+    // AJAX Add to Cart
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      let formData = new FormData(form);
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        
+        const opts = data.options_with_values || [];
+
+        const hasBlack = opts.some(opt => opt.name === "Color" && opt.value === "Black");
+        const hasMedium = opts.some(opt => opt.name === "Size" && opt.value === "M");
+
+        console.log({hasBlack ,hasMedium , opts});
+        
+        
+
+        if (hasBlack && hasMedium) {
+          // 3. Add the "Soft Winter Jacket" automatically
+          fetch("/cart/add.js", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              items: [{ id: 50507675173162, quantity: 1 }]
+            })
+          }).finally(()=>window.location = window.routes.cart_url)
+        }
+        else {
+          window.location = window.routes.cart_url;
+        }
+        
+      })
+      .catch(err => console.error(err));
+
+
+    });
+  }
+}
+
+customElements.define('product-quickview', ProductQuickview);
+
+// Hook hotspot clicks
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('hotspot')) {
+    document.querySelector('#productQuickview')
+      .open(e.target.dataset.productHandle);
+  }
+  let target = e.target.closest('.product-popup');
+  if(!target){
+    console.log("true");
+    
+    document.querySelector(".product-popup").classList.contains("active") ? document.querySelector(".product-popup").classList.remove("active") : ''
+  }
+});

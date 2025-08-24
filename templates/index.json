@@ -25,6 +25,64 @@
     },
     "custom_produt_grid_yWk6Eh": {
       "type": "custom-produt-grid",
+      "blocks": {
+        "product_tptKRC": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag",
+            "hotspot_top": 68,
+            "hotspot_left": 34
+          }
+        },
+        "product_qwTbmH": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "hotspot_top": 77,
+            "hotspot_left": 39
+          }
+        },
+        "product_XwtJwK": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "hotspot_top": 50,
+            "hotspot_left": 50
+          }
+        },
+        "product_rPwAPY": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "hotspot_top": 50,
+            "hotspot_left": 34
+          }
+        },
+        "product_6FUH3E": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top",
+            "hotspot_top": 50,
+            "hotspot_left": 71
+          }
+        },
+        "product_4wFqaJ": {
+          "type": "product",
+          "settings": {
+            "product": "navy-sport-jacket",
+            "hotspot_top": 50,
+            "hotspot_left": 50
+          }
+        }
+      },
+      "block_order": [
+        "product_tptKRC",
+        "product_qwTbmH",
+        "product_XwtJwK",
+        "product_rPwAPY",
+        "product_6FUH3E",
+        "product_4wFqaJ"
+      ],
       "name": "Hotspot Product Grid",
       "settings": {
         "section_head": ""
